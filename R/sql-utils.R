@@ -106,6 +106,7 @@
         .DB_RESOURCE_FIELDS, .id_as_single_string(x))
     tbl <- .query_as_data.frame(x, query)
     tbl[["tags"]] <- I(.collapse_as_list(x, .tags))
+    tbl[["licenses"]] <- I(.collapse_as_list(x, .resources_licenses))
     tbl[["rdataclass"]] <- .collapse_as_string(x, .rdataclass)
     tbl[["rdatapath"]] <- .collapse_as_string(x, .rdatapath)
     tbl[["sourceurl"]] <- .collapse_as_string(x, .sourceurl)
@@ -156,6 +157,17 @@
     query <- sprintf(
         'SELECT DISTINCT tag, resource_id AS id FROM tags
          WHERE resource_id IN (%s)',
+        .id_as_single_string(x))
+    .db_query(dbfile(x), query)
+}
+
+## helper to retrieve licenses
+.resources_licenses <- function(x) {
+    query <- sprintf(
+        'SELECT DISTINCT SSS, resource_id AS id 
+         FROM resources_licenses, licenses
+         WHERE licenses.id = resources_licenses.license_id
+         AND resource_id IN (%s)',
         .id_as_single_string(x))
     .db_query(dbfile(x), query)
 }

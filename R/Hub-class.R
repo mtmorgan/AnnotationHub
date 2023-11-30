@@ -513,6 +513,7 @@ setMethod("$", "Hub",
 {
     switch(name,
      "tags"=unname(.collapse_as_string(x, .tags)),
+     "licenses"=unname(.collapse_as_string(x, .resources_licenses)),
      "rdataclass"=unname(.collapse_as_string(x, .rdataclass)),
      "rdatapath"=unname(.collapse_as_string(x, .rdatapath)),
      "sourceurl"=unname(.collapse_as_string(x, .sourceurl)),
@@ -523,7 +524,7 @@ setMethod("$", "Hub",
 .DollarNames.Hub <-
     function(x, pattern="")
 {
-    values <- c(.resource_columns(), "tags", "rdataclass",
+    values <- c(.resource_columns(), "tags", "licenses", "rdataclass",
                 "sourceurl", "sourcetype")
     grep(pattern, values, value=TRUE)
 }
@@ -647,6 +648,7 @@ setMethod("as.list", "Hub", as.list.Hub)
     cat(.pprintf1("sourceurl", rsrc[["sourceurl"]]))
     cat(.pprintf1("sourcesize", size))
     cat(.pprintf0("# $tags: %s", rsrc[["tags"]]), "\n")
+    cat(.pprintf0("# $licenses: %s", rsrc[["licenses"]]), "\n")
     cat(.pprintf0("# retrieve record with 'object[[\"%s\"]]'",
                   names(object)[[1]]), "\n")
 }

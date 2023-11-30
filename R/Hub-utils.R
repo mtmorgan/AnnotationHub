@@ -70,7 +70,7 @@
         ## required tables present?
         expected <- c("biocversions", "input_sources", "location_prefixes",
                       "rdatapaths", "recipes", "resources", "statuses",
-                      "tags", "timestamp")
+                      "tags", "licenses", "resources_licenses", "timestamp")
         if (!all(expected %in% dbListTables(conn)))
             stop("missing tables")
         ## any resources?
