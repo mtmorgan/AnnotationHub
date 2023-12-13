@@ -38,4 +38,9 @@
         opt <- as.logical(opt)
         setAnnotationHubOption("ASK", opt)
     }
+    if (is.null(getAnnotationHubOption("LICENSE"))) {
+        opt <- getOption("ANNOTATION_HUB_LICENSE", "")
+        opt <- Sys.getenv("ANNOTATION_HUB_LICENSE", opt)
+        setAnnotationHubOption("LICENSE", opt)
+    }
 }

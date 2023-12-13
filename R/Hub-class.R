@@ -306,9 +306,10 @@ setMethod("[[", c("Hub", "character", "missing"),
 ###
 
 setMethod("cache", "Hub",
-    function(x, ..., proxy, max.downloads, force=FALSE, verbose=FALSE)
+    function(x, ..., proxy, max.downloads, license, force=FALSE, verbose=FALSE)
         .cache_internal(x,
                         proxy=proxy, max.downloads=max.downloads,
+                        license=license,
                         force=force, verbose=verbose)
 )
 

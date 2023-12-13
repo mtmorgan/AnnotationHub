@@ -27,7 +27,7 @@ removeCache <- function(x, ask=TRUE){
 }
 
 
-.cache_internal <- function(x, proxy, max.downloads,
+.cache_internal <- function(x, proxy, max.downloads, license,
                             force, verbose)
 {
     cachepath <- .named_cache_path(x)
@@ -36,7 +36,8 @@ removeCache <- function(x, ask=TRUE){
     bfc <- .get_cache(x)
 
     if(!localHub){
-        need <- .cache_download_ok(x, cachepath, max.downloads, force, verbose)
+        need <- .cache_download_ok(x, cachepath, max.downloads, license, 
+                                   force, verbose)
 
         ok <- .hub_resource(x, as.character(cachepath)[need],
                             cachepath[need], proxy=proxy, verbose=verbose
@@ -72,7 +73,8 @@ removeCache <- function(x, ask=TRUE){
     localFiles
 }
 
-.cache_download_ok <- function(x, cachepath, max.downloads, force, verbose)
+.cache_download_ok <- function(x, cachepath, max.downloads, license, 
+                               force, verbose)
 {
     if (force){
         need <- rep(TRUE, length(cachepath))
@@ -94,11 +96,48 @@ removeCache <- function(x, ask=TRUE){
             stop(txt, call. = FALSE)
         }
     } else {
-        if (verbose && (n > 0)) message("downloading ", n, " resources")
+        if (verbose && (n > 0)) {
+            db_license <- x$licenses
+            user_license <- license
+            if (.check_license(db_license, user_license) == TRUE) {
+                message("downloading ", n, " resources")
+            }
+        } 
     }
 
     need
 }
+
+.check_license <-
+    function(db_license, user_license)
+    {        
+        if (is.na(db_license)) {
+            TRUE
+        } else {
+            ## process database & user licenses to vectors
+            licenses <- db_license
+            db_license <- trimws(unlist(strsplit(db_license, ",")))
+            user_license <- trimws(unlist(strsplit(user_license, ",")))
+            ## check whether license is 'pre-approved'
+            res <- length(intersect(db_license, user_license)) > 0L
+            ans <- "n"
+            ## if not, and interactive session, ask user to agree to download
+            if (!res && interactive()) {
+                ans <- .ask(sprintf("Do you agree to license(s) %s?", 
+                                    licenses), 
+                            c("y", "n"))
+            }
+            ## if license not approved, stop
+            if (!res && ans == "n") {
+                txt <- sprintf(
+                    "license(s) (%s) need to be agreed to download",
+                    licenses
+                )
+                stop(txt, call. = FALSE)
+            }
+            TRUE
+        }
+    }
 
 .updateEntry <- function(bfc, cachepath)
 {

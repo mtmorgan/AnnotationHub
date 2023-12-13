@@ -325,6 +325,7 @@ convertHub <- function(oldcachepath=NULL, newcachepath=NULL,
                        hubType=c("AnnotationHub", "ExperimentHub"),
                        proxy=getAnnotationHubOption("PROXY"),
                        max.downloads=getAnnotationHubOption("MAX_DOWNLOADS"),
+                       license=getAnnotationHubOption("LICENSE"),
                        force=FALSE, verbose=TRUE)
 {
 
@@ -371,6 +372,7 @@ convertHub <- function(oldcachepath=NULL, newcachepath=NULL,
     tryCatch({
         .cache_internal(subHub,
                         proxy=proxy, max.downloads=max.downloads,
+                        license=license,
                         force=force, verbose=verbose)
     }, error = function(err) {
         warning("Not all resources downloaded correctly.",

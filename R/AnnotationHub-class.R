@@ -71,6 +71,7 @@ setMethod("cache", "AnnotationHub",
         cache.fun=setAnnotationHubOption,
         proxy=getAnnotationHubOption("PROXY"),
         max.downloads=getAnnotationHubOption("MAX_DOWNLOADS"),
+        license=getAnnotationHubOption("LICENSE"),
         force=force,
         verbose=verbose
     )
