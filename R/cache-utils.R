@@ -97,11 +97,15 @@ removeCache <- function(x, ask=TRUE){
         }
     } else {
         if (verbose && (n > 0)) {
-            db_license <- x$licenses
+            m <- 0
             user_license <- license
-            if (.check_license(db_license, user_license) == TRUE) {
-                message("downloading ", n, " resources")
+            for (i in 1:n) {
+                db_license <- x[need][i]$licenses
+                if (.check_license(db_license, user_license) == TRUE) {
+                    m <- m + 1
+                }
             }
+            message("downloading ", m, " resources")
         } 
     }
 
@@ -115,9 +119,9 @@ removeCache <- function(x, ask=TRUE){
             TRUE
         } else {
             ## process database & user licenses to vectors
-            licenses <- db_license
             db_license <- trimws(unlist(strsplit(db_license, ",")))
             user_license <- trimws(unlist(strsplit(user_license, ",")))
+            licenses <- setdiff(db_license, user_license)
             ## check whether license is 'pre-approved'
             res <- length(intersect(db_license, user_license)) > 0L
             ans <- "n"
