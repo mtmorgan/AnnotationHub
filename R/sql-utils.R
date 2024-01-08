@@ -164,7 +164,7 @@
 ## helper to retrieve licenses
 .resources_licenses <- function(x) {
     query <- sprintf(
-        'SELECT DISTINCT SSS, resource_id AS id 
+        'SELECT DISTINCT sss, resource_id AS id
          FROM resources_licenses, licenses
          WHERE licenses.id = resources_licenses.license_id
          AND resource_id IN (%s)',

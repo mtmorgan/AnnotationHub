@@ -305,12 +305,16 @@ setMethod("[[", c("Hub", "character", "missing"),
 ### cache methods
 ###
 
-setMethod("cache", "Hub",
-    function(x, ..., proxy, max.downloads, license, force=FALSE, verbose=FALSE)
-        .cache_internal(x,
-                        proxy=proxy, max.downloads=max.downloads,
-                        license=license,
-                        force=force, verbose=verbose)
+setMethod(
+    "cache", "Hub",
+    function(x, ..., proxy, max.downloads,
+             license = getAnnotationHubOption("LICENSE"),
+             force = FALSE, verbose = FALSE)
+    .cache_internal(
+        x, proxy=proxy, max.downloads=max.downloads,
+        license=license,
+        force=force, verbose=verbose
+    )
 )
 
 
