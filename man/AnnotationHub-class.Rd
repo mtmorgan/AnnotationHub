@@ -243,11 +243,14 @@
       to subset the hub, e.g., \code{x[x$species == "Homo sapiens"]}.
     }
     \item{}{
-      \code{x[[i, force=FALSE, verbose=TRUE]]}:
+      \code{x[[i, force=FALSE, verbose=TRUE,
+          license=getAnnotationHubOption("LICENSE")]]}:
       Numerical or character scalar to retrieve (if necessary) and
       import the resource into R. If a user wants to download the file
       again and not use the cache version add the argument
       \code{force=TRUE}. \code{verbose=FALSE} will quiet status messages.
+      \code{licese=getAnnotationHubOption("LICENSE")} will get resources with
+      specified license.
     }
     \item{}{
       \code{query(x, pattern, ignore.case=TRUE, pattern.op= `&`)}:

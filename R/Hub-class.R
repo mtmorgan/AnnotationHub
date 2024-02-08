@@ -253,13 +253,15 @@ setMethod("[", c("Hub", "character", "missing"),
 })
 
 setMethod("[[", c("Hub", "numeric", "missing"),
-    function(x, i, j, ..., force=FALSE, verbose=TRUE)
+    function(x, i, j, ..., force=FALSE, verbose=TRUE,
+        license=getAnnotationHubOption("LICENSE"))
 {
-    .Hub_get1(x[i], force=force, verbose=verbose)
+    .Hub_get1(x[i], force=force, verbose=verbose, license=license)
 })
 
 setMethod("[[", c("Hub", "character", "missing"),
-    function(x, i, j, ..., force=FALSE, verbose=TRUE)
+    function(x, i, j, ..., force=FALSE, verbose=TRUE,
+        license=getAnnotationHubOption("LICENSE"))
 {
     if (length(i) != 1L)
         stop("'i' must be length 1")
@@ -297,7 +299,7 @@ setMethod("[[", c("Hub", "character", "missing"),
             msg <- paste0(msg, "   Resource removed on: ", status$dateremoved)
         stop(msg, call.=FALSE)
     }
-    .Hub_get1(x[idx], force=force, verbose=verbose)
+    .Hub_get1(x[idx], force=force, verbose=verbose, license=license)
 })
 
 
