@@ -278,7 +278,7 @@ possibleDates <- function(x) {
 ###
 
 .Hub_get1 <-
-    function(x, force, verbose)
+    function(x, force, verbose, license)
 {
     if (!length(x))
         stop("no records found for the given index")
@@ -305,7 +305,7 @@ possibleDates <- function(x) {
     })
 
     tryCatch({
-        fls <-  cache(getHub(class), force=force, verbose=verbose)
+        fls <-  cache(getHub(class), force=force, verbose=verbose, license=license)
         .get1(class)
     }, error=function(err) {
         stop("failed to load resource",
